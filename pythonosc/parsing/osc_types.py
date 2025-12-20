@@ -1,11 +1,10 @@
 """Functions to get OSC types from datagrams and vice versa"""
 
 import struct
+from datetime import datetime, timedelta
+from typing import Tuple, Union, cast
 
 from pythonosc.parsing import ntp
-from datetime import datetime, timedelta
-
-from typing import Union, Tuple, cast
 
 MidiPacket = Tuple[int, int, int, int]
 
@@ -71,10 +70,7 @@ def get_string(dgram: bytes, start_index: int) -> Tuple[str, int]:
         raise ParseError("start_index < 0")
     offset = 0
     try:
-        if (
-            len(dgram) > start_index + _STRING_DGRAM_PAD
-            and dgram[start_index + _STRING_DGRAM_PAD] == _EMPTY_STR_DGRAM
-        ):
+        if len(dgram) > start_index + _STRING_DGRAM_PAD and dgram[start_index + _STRING_DGRAM_PAD] == _EMPTY_STR_DGRAM:
             return "", start_index + _STRING_DGRAM_PAD
         while dgram[start_index + offset] != 0:
             offset += 1
@@ -184,9 +180,7 @@ def get_uint64(dgram: bytes, start_index: int) -> Tuple[int, int]:
         if len(dgram[start_index:]) < _UINT64_DGRAM_LEN:
             raise ParseError("Datagram is too short")
         return (
-            struct.unpack(">Q", dgram[start_index : start_index + _UINT64_DGRAM_LEN])[
-                0
-            ],
+            struct.unpack(">Q", dgram[start_index : start_index + _UINT64_DGRAM_LEN])[0],
             start_index + _UINT64_DGRAM_LEN,
         )
     except (struct.error, TypeError) as e:
@@ -217,9 +211,7 @@ def get_timetag(dgram: bytes, start_index: int) -> Tuple[Tuple[datetime, int], i
         hours, seconds = seconds // 3600, seconds % 3600
         minutes, seconds = seconds // 60, seconds % 60
 
-        utc = datetime.combine(ntp._NTP_EPOCH, datetime.min.time()) + timedelta(
-            hours=hours, minutes=minutes, seconds=seconds
-        )
+        utc = datetime.combine(ntp._NTP_EPOCH, datetime.min.time()) + timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
         return (utc, fraction), start_index + _TIMETAG_DGRAM_LEN
     except (struct.error, TypeError) as e:
@@ -294,9 +286,7 @@ def get_double(dgram: bytes, start_index: int) -> Tuple[float, int]:
         if len(dgram[start_index:]) < _DOUBLE_DGRAM_LEN:
             raise ParseError("Datagram is too short")
         return (
-            struct.unpack(">d", dgram[start_index : start_index + _DOUBLE_DGRAM_LEN])[
-                0
-            ],
+            struct.unpack(">d", dgram[start_index : start_index + _DOUBLE_DGRAM_LEN])[0],
             start_index + _DOUBLE_DGRAM_LEN,
         )
     except (struct.error, TypeError) as e:
@@ -455,9 +445,7 @@ def get_midi(dgram: bytes, start_index: int) -> Tuple[MidiPacket, int]:
         if len(dgram[start_index:]) < _INT_DGRAM_LEN:
             raise ParseError("Datagram is too short")
         val = struct.unpack(">I", dgram[start_index : start_index + _INT_DGRAM_LEN])[0]
-        midi_msg = cast(
-            MidiPacket, tuple((val & 0xFF << 8 * i) >> 8 * i for i in range(3, -1, -1))
-        )
+        midi_msg = cast(MidiPacket, tuple((val & 0xFF << 8 * i) >> 8 * i for i in range(3, -1, -1)))
         return (midi_msg, start_index + _INT_DGRAM_LEN)
     except (struct.error, TypeError) as e:
         raise ParseError(f"Could not parse datagram {e}")

@@ -70,9 +70,7 @@ class _TCPHandler1_0(socketserver.BaseRequestHandler):
             if data == b"":
                 break
 
-            resp = self.server.dispatcher.call_handlers_for_packet(
-                data, self.client_address
-            )
+            resp = self.server.dispatcher.call_handlers_for_packet(data, self.client_address)
             # resp = _call_handlers_for_packet(data, self.server.dispatcher)
             for r in resp:
                 if not isinstance(r, tuple):
@@ -113,9 +111,7 @@ class _TCPHandler1_1(socketserver.BaseRequestHandler):
 
             for p in packets:
                 # resp = _call_handlers_for_packet(p, self.server.dispatcher)
-                resp = self.server.dispatcher.call_handlers_for_packet(
-                    p, self.client_address
-                )
+                resp = self.server.dispatcher.call_handlers_for_packet(p, self.client_address)
                 for r in resp:
                     if not isinstance(r, tuple):
                         r = [r]
@@ -221,9 +217,7 @@ class AsyncOSCTCPServer:
 
     async def start(self) -> None:
         """creates a socket endpoint and registers it with our event loop"""
-        self._server = await asyncio.start_server(
-            self.handle, self._server_address, self._port
-        )
+        self._server = await asyncio.start_server(self.handle, self._server_address, self._port)
 
         addrs = ", ".join(str(sock.getsockname()) for sock in self._server.sockets)
         LOG.debug(f"Serving on {addrs}")
@@ -239,9 +233,7 @@ class AsyncOSCTCPServer:
     def dispatcher(self):
         return self._dispatcher
 
-    async def handle(
-        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
-    ) -> None:
+    async def handle(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         client_address = ("", 0)
         sock = writer.transport.get_extra_info("socket")
         if sock is not None:
@@ -280,9 +272,7 @@ class AsyncOSCTCPServer:
                 buf += newbuf
                 length -= len(newbuf)
 
-            result = await self.dispatcher.async_call_handlers_for_packet(
-                buf, client_address
-            )
+            result = await self.dispatcher.async_call_handlers_for_packet(buf, client_address)
             for r in result:
                 if not isinstance(r, tuple):
                     r = [r]
@@ -315,9 +305,7 @@ class AsyncOSCTCPServer:
 
             packets = [slip.decode(p) for p in buf.split(slip.END_END)]
             for p in packets:
-                result = await self.dispatcher.async_call_handlers_for_packet(
-                    p, client_address
-                )
+                result = await self.dispatcher.async_call_handlers_for_packet(p, client_address)
                 for r in result:
                     if not isinstance(r, tuple):
                         r = [r]

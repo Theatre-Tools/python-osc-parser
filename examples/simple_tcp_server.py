@@ -39,8 +39,6 @@ if __name__ == "__main__":
     dispatcher.map("/volume", print_volume_handler, "Volume")
     dispatcher.map("/logvolume", print_compute_handler, "Log volume", math.log)
 
-    server = osc_tcp_server.ThreadingOSCTCPServer(
-        (args.ip, args.port), dispatcher, mode=args.mode
-    )
+    server = osc_tcp_server.ThreadingOSCTCPServer((args.ip, args.port), dispatcher, mode=args.mode)
     print(f"Serving on {server.server_address}")
     server.serve_forever()

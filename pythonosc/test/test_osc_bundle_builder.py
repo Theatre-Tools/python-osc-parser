@@ -1,14 +1,11 @@
 import unittest
 
-from pythonosc import osc_bundle_builder
-from pythonosc import osc_message_builder
+from pythonosc import osc_bundle_builder, osc_message_builder
 
 
 class TestOscBundleBuilder(unittest.TestCase):
     def test_empty_bundle(self):
-        bundle = osc_bundle_builder.OscBundleBuilder(
-            osc_bundle_builder.IMMEDIATELY
-        ).build()
+        bundle = osc_bundle_builder.OscBundleBuilder(osc_bundle_builder.IMMEDIATELY).build()
         self.assertEqual(0, bundle.num_contents)
 
     def test_raises_on_build(self):

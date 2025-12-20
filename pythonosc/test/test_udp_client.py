@@ -1,8 +1,7 @@
 import unittest
 from unittest import mock
 
-from pythonosc import osc_message_builder
-from pythonosc import udp_client
+from pythonosc import osc_message_builder, udp_client
 
 
 class TestUdpClient(unittest.TestCase):
@@ -42,9 +41,7 @@ class TestSimpleUdpClient(unittest.TestCase):
         self.builder.add_arg.assert_called_once_with("hello")
 
     def test_send_message_calls_add_arg_multiple_times_with_list(self):
-        udp_client.SimpleUDPClient.send_message(
-            self.client, "/address", [1, "john", True]
-        )
+        udp_client.SimpleUDPClient.send_message(self.client, "/address", [1, "john", True])
         self.assertEqual(self.builder.add_arg.call_count, 3)
 
 
