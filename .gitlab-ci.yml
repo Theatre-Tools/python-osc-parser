@@ -1,10 +1,16 @@
 # GitLab CI/CD pipeline for Python OSC library
 # Converted from GitHub Actions workflow
 
-image: python:3.12
+image: python:3.11
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+before_script:
+  - pip install --upgrade pip
+  - pip install poetry
+  - poetry config virtualenvs.create true
+
 
 cache:
   paths:
@@ -14,17 +20,16 @@ stages:
   - test
   - lint
   - check-types
-
+  - deploy
 # Test job with matrix for multiple Python versions
 test:
   stage: test
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13"]
   image: python:$PYTHON_VERSION
   before_script:
-    - python -m pip install --upgrade pip
-    - python -m pip install flake8 pytest mypy
+    - poetry install
   script:
     # Lint with flake8
     - echo "Running flake8 linting..."
@@ -39,22 +44,21 @@ test:
 # Black formatting check
 lint:
   stage: lint
-  image: python:3.12
+  image: python:3.11
   before_script:
-    - pip install black
+    - poetry install
   script:
     - black --check .
 
 # Check types in published package
 check-types-published:
   stage: check-types
-  image: python:3.12
+  image: python:3.11
   script:
-    - pip install build mypy
+    - poetry install
     - python -m build --sdist --wheel
     - temp=$(mktemp -d)
-    - python -m venv $temp/venv
-    - source $temp/venv/bin/activate
+    - poetry env activate
     - pip install mypy ./dist/*whl
     - cd $temp
     - echo 'import pythonosc' > demo.py
