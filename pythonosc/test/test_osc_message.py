@@ -1,15 +1,14 @@
 import unittest
+from datetime import datetime
 
 from pythonosc import osc_message
 
-from datetime import datetime
-
 # Datagrams sent by Reaktor 5.8 by Native Instruments (c).
-_DGRAM_KNOB_ROTATES = b"/FB\x00" b",f\x00\x00" b">xca=q"
+_DGRAM_KNOB_ROTATES = b"/FB\x00,f\x00\x00>xca=q"
 
-_DGRAM_SWITCH_GOES_OFF = b"/SYNC\x00\x00\x00" b",f\x00\x00" b"\x00\x00\x00\x00"
+_DGRAM_SWITCH_GOES_OFF = b"/SYNC\x00\x00\x00,f\x00\x00\x00\x00\x00\x00"
 
-_DGRAM_SWITCH_GOES_ON = b"/SYNC\x00\x00\x00" b",f\x00\x00" b"?\x00\x00\x00"
+_DGRAM_SWITCH_GOES_ON = b"/SYNC\x00\x00\x00,f\x00\x00?\x00\x00\x00"
 
 _DGRAM_NO_PARAMS = b"/SYNC\x00\x00\x00"
 
@@ -122,12 +121,8 @@ class TestOscMessage(unittest.TestCase):
         self.assertAlmostEqual(0.5, msg.params[0])
 
     def test_raises_on_invalid_array(self):
-        self.assertRaises(
-            osc_message.ParseError, osc_message.OscMessage, b"/SYNC\x00\x00\x00[]]\x00"
-        )
-        self.assertRaises(
-            osc_message.ParseError, osc_message.OscMessage, b"/SYNC\x00\x00\x00[[]\x00"
-        )
+        self.assertRaises(osc_message.ParseError, osc_message.OscMessage, b"/SYNC\x00\x00\x00[]]\x00")
+        self.assertRaises(osc_message.ParseError, osc_message.OscMessage, b"/SYNC\x00\x00\x00[[]\x00")
 
     def test_raises_on_incorrect_datargram(self):
         self.assertRaises(osc_message.ParseError, osc_message.OscMessage, b"foobar")

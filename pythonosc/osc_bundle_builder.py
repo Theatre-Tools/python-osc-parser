@@ -2,8 +2,7 @@
 
 from typing import List
 
-from pythonosc import osc_bundle
-from pythonosc import osc_message
+from pythonosc import osc_bundle, osc_message
 from pythonosc.parsing import osc_types
 
 # Shortcut to specify an immediate execution of messages in the bundle.
@@ -27,9 +26,7 @@ class OscBundleBuilder(object):
         self._timestamp = timestamp
         self._contents: List[osc_bundle.OscBundle | osc_message.OscMessage] = []
 
-    def add_content(
-        self, content: osc_bundle.OscBundle | osc_message.OscMessage
-    ) -> None:
+    def add_content(self, content: osc_bundle.OscBundle | osc_message.OscMessage) -> None:
         """Add a new content to this bundle.
 
         Args:
@@ -47,16 +44,12 @@ class OscBundleBuilder(object):
         try:
             dgram += osc_types.write_date(self._timestamp)
             for content in self._contents:
-                if isinstance(content, osc_message.OscMessage) or isinstance(
-                    content, osc_bundle.OscBundle
-                ):
+                if isinstance(content, osc_message.OscMessage) or isinstance(content, osc_bundle.OscBundle):
                     size = content.size
                     dgram += osc_types.write_int(size)
                     dgram += content.dgram
                 else:
-                    raise BuildError(
-                        f"Content must be either OscBundle or OscMessage, found {type(content)}"
-                    )
+                    raise BuildError(f"Content must be either OscBundle or OscMessage, found {type(content)}")
             return osc_bundle.OscBundle(dgram)
         except osc_types.BuildError as be:
             raise BuildError(f"Could not build the bundle {be}")

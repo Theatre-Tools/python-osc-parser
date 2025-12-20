@@ -38,9 +38,7 @@ class UDPClient(object):
             family: address family parameter (passed to socket.getaddrinfo)
         """
 
-        for addr in socket.getaddrinfo(
-            address, port, type=socket.SOCK_DGRAM, family=family
-        ):
+        for addr in socket.getaddrinfo(address, port, type=socket.SOCK_DGRAM, family=family):
             af, socktype, protocol, canonname, sa = addr
 
             try:

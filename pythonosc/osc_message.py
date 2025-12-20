@@ -1,9 +1,9 @@
 """Representation of an OSC message in a pythonesque way."""
 
 import logging
+from typing import Any, Iterator, List
 
 from pythonosc.parsing import osc_types
-from typing import List, Iterator, Any
 
 
 class ParseError(Exception):
@@ -72,9 +72,7 @@ class OscMessage(object):
                     param_stack.append(array)
                 elif param == "]":  # Array stop.
                     if len(param_stack) < 2:
-                        raise ParseError(
-                            f"Unexpected closing bracket in type tag: {type_tag}"
-                        )
+                        raise ParseError(f"Unexpected closing bracket in type tag: {type_tag}")
                     param_stack.pop()
                 # TODO: Support more exotic types as described in the specification.
                 else:

@@ -3,7 +3,6 @@
 import datetime
 import struct
 import time
-
 from typing import NamedTuple
 
 # 63 zero bits followed by a one in the least signifigant bit is a special

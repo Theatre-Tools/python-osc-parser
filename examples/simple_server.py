@@ -7,8 +7,8 @@ received packets.
 import argparse
 import math
 
-from pythonosc.dispatcher import Dispatcher
 from pythonosc import osc_server
+from pythonosc.dispatcher import Dispatcher
 
 
 def print_volume_handler(unused_addr, args, volume):

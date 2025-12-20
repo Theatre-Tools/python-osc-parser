@@ -175,9 +175,7 @@ class AsyncTCPClient:
         return self
 
     async def __open__(self):
-        self.reader, self.writer = await asyncio.open_connection(
-            self.address, self.port
-        )
+        self.reader, self.writer = await asyncio.open_connection(self.address, self.port)
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
@@ -284,7 +282,5 @@ class AsyncDispatchTCPClient(AsyncTCPClient):
         msgs = await self.receive(timeout)
         while msgs:
             for m in msgs:
-                await self.dispatcher.async_call_handlers_for_packet(
-                    m, (self.address, self.port)
-                )
+                await self.dispatcher.async_call_handlers_for_packet(m, (self.address, self.port))
             msgs = await self.receive(timeout)

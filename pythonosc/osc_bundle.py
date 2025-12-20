@@ -1,9 +1,8 @@
 import logging
+from typing import Any, Iterator, List, Union
 
 from pythonosc import osc_message
 from pythonosc.parsing import osc_types
-
-from typing import Any, Iterator, List, Union
 
 _BUNDLE_PREFIX = b"#bundle\x00"
 
@@ -37,9 +36,7 @@ class OscBundle(object):
         # Get the contents as a list of OscBundle and OscMessage.
         self._contents = self._parse_contents(index)
 
-    def _parse_contents(
-        self, index: int
-    ) -> List[Union["OscBundle", osc_message.OscMessage]]:
+    def _parse_contents(self, index: int) -> List[Union["OscBundle", osc_message.OscMessage]]:
         contents = []  # type: List[Union[OscBundle, osc_message.OscMessage]]
 
         try:
@@ -60,9 +57,7 @@ class OscBundle(object):
                 elif osc_message.OscMessage.dgram_is_message(content_dgram):
                     contents.append(osc_message.OscMessage(content_dgram))
                 else:
-                    logging.warning(
-                        f"Could not identify content type of dgram {content_dgram!r}"
-                    )
+                    logging.warning(f"Could not identify content type of dgram {content_dgram!r}")
         except (osc_types.ParseError, osc_message.ParseError, IndexError) as e:
             raise ParseError(f"Could not parse a content datagram: {e}")
 

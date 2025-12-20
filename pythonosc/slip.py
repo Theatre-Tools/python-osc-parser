@@ -98,8 +98,4 @@ def is_valid(packet: bytes) -> bool:
         :const:`True` if the packet is valid, :const:`False` otherwise
     """
     packet = packet.strip(END)
-    return not (
-        END in packet
-        or packet.endswith(ESC)
-        or re.search(ESC + b"[^" + ESC_END + ESC_ESC + b"]", packet)
-    )
+    return not (END in packet or packet.endswith(ESC) or re.search(ESC + b"[^" + ESC_END + ESC_ESC + b"]", packet))

@@ -30,9 +30,7 @@ class _UDPHandler(socketserver.BaseRequestHandler):
         threads/processes will be spawned.
         """
         server = cast(OSCUDPServer, self.server)
-        resp = server.dispatcher.call_handlers_for_packet(
-            self.request[0], self.client_address
-        )
+        resp = server.dispatcher.call_handlers_for_packet(self.request[0], self.client_address)
         for r in resp:
             if not isinstance(r, tuple):
                 r = [r]
@@ -46,13 +44,9 @@ def _is_valid_request(request: _RequestType) -> bool:
     Returns:
         True if request is OSC bundle or OSC message
     """
-    assert isinstance(
-        request, tuple
-    )  # TODO: handle requests which are passed just as a socket?
+    assert isinstance(request, tuple)  # TODO: handle requests which are passed just as a socket?
     data = request[0]
-    return osc_bundle.OscBundle.dgram_is_bundle(
-        data
-    ) or osc_message.OscMessage.dgram_is_message(data)
+    return osc_bundle.OscBundle.dgram_is_bundle(data) or osc_message.OscMessage.dgram_is_message(data)
 
 
 class OSCUDPServer(socketserver.UDPServer):
@@ -74,9 +68,7 @@ class OSCUDPServer(socketserver.UDPServer):
         super().__init__(server_address, _UDPHandler, bind_and_activate)
         self._dispatcher = dispatcher
 
-    def verify_request(
-        self, request: _RequestType, client_address: _AddressType
-    ) -> bool:
+    def verify_request(self, request: _RequestType, client_address: _AddressType) -> bool:
         """Returns true if the data looks like a valid OSC UDP datagram
 
         Args:
@@ -155,9 +147,7 @@ class AsyncIOOSCUDPServer:
         def connection_made(self, transport):
             self.transport = transport
 
-        def datagram_received(
-            self, data: bytes, client_address: Tuple[str, int]
-        ) -> None:
+        def datagram_received(self, data: bytes, client_address: Tuple[str, int]) -> None:
             resp = self.dispatcher.call_handlers_for_packet(data, client_address)
             for r in resp:
                 if not isinstance(r, tuple):
@@ -175,9 +165,7 @@ class AsyncIOOSCUDPServer:
 
     def create_serve_endpoint(
         self,
-    ) -> Coroutine[
-        Any, Any, Tuple[asyncio.transports.BaseTransport, asyncio.DatagramProtocol]
-    ]:
+    ) -> Coroutine[Any, Any, Tuple[asyncio.transports.BaseTransport, asyncio.DatagramProtocol]]:
         """Creates a datagram endpoint and registers it with event loop as coroutine.
 
         Returns:

@@ -6,12 +6,11 @@ This can be used to demonstrate concurrent send and recieve over OSC
 
 import argparse
 import random
-import time
 import threading
+import time
 
-from pythonosc import udp_client
+from pythonosc import osc_server, udp_client
 from pythonosc.dispatcher import Dispatcher
-from pythonosc import osc_server
 
 
 def print_fader_handler(unused_addr, args, value):
@@ -31,9 +30,7 @@ if __name__ == "__main__":
         default=5005,
         help="The port the OSC Server is listening on",
     )
-    parser.add_argument(
-        "--clientip", default="127.0.0.1", help="The ip of the OSC server"
-    )
+    parser.add_argument("--clientip", default="127.0.0.1", help="The ip of the OSC server")
     parser.add_argument(
         "--clientport",
         type=int,

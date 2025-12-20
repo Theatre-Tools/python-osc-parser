@@ -5,19 +5,20 @@ import inspect
 import logging
 import re
 import time
-from pythonosc import osc_packet
 from typing import (
-    overload,
-    List,
-    Union,
     Any,
     AnyStr,
-    Generator,
-    Tuple,
     Callable,
-    Optional,
     DefaultDict,
+    Generator,
+    List,
+    Optional,
+    Tuple,
+    Union,
+    overload,
 )
+
+from pythonosc import osc_packet
 from pythonosc.osc_message import OscMessage
 from pythonosc.osc_message_builder import ArgValue
 
@@ -55,9 +56,7 @@ class Handler(object):
             and self.needs_reply_address == other.needs_reply_address
         )
 
-    def invoke(
-        self, client_address: Tuple[str, int], message: OscMessage
-    ) -> Union[None, AnyStr, Tuple[AnyStr, ArgValue]]:
+    def invoke(self, client_address: Tuple[str, int], message: OscMessage) -> Union[None, AnyStr, Tuple[AnyStr, ArgValue]]:
         """Invokes the associated callback function
 
         Args:
@@ -69,9 +68,7 @@ class Handler(object):
         """
         if self.needs_reply_address:
             if self.args:
-                return self.callback(
-                    client_address, message.address, self.args, *message
-                )
+                return self.callback(client_address, message.address, self.args, *message)
             else:
                 return self.callback(client_address, message.address, *message)
         else:
@@ -168,18 +165,12 @@ class Dispatcher(object):
             if isinstance(handler, Handler):
                 self._map[address].remove(handler)
             else:
-                self._map[address].remove(
-                    Handler(handler, list(args), needs_reply_address)
-                )
+                self._map[address].remove(Handler(handler, list(args), needs_reply_address))
         except ValueError as e:
             if str(e) == "list.remove(x): x not in list":
-                raise ValueError(
-                    f"Address '{address}' doesn't have handler '{handler}' mapped to it"
-                ) from e
+                raise ValueError(f"Address '{address}' doesn't have handler '{handler}' mapped to it") from e
 
-    def handlers_for_address(
-        self, address_pattern: str
-    ) -> Generator[Handler, None, None]:
+    def handlers_for_address(self, address_pattern: str) -> Generator[Handler, None, None]:
         """Yields handlers matching an address
 
 
@@ -205,10 +196,7 @@ class Dispatcher(object):
         matched = False
 
         for addr, handlers in self._map.items():
-            if patterncompiled.match(addr) or (
-                ("*" in addr)
-                and re.match(addr.replace("*", "[^/]*?/*"), address_pattern)
-            ):
+            if patterncompiled.match(addr) or (("*" in addr) and re.match(addr.replace("*", "[^/]*?/*"), address_pattern)):
                 yield from handlers
                 matched = True
 
@@ -216,9 +204,7 @@ class Dispatcher(object):
             logging.debug("No handler matched but default handler present, added it.")
             yield self._default_handler
 
-    def call_handlers_for_packet(
-        self, data: bytes, client_address: Tuple[str, int]
-    ) -> List:
+    def call_handlers_for_packet(self, data: bytes, client_address: Tuple[str, int]) -> List:
         """Invoke handlers for all messages in OSC packet
 
         The incoming OSC Packet is decoded and the handlers for each included message is found and invoked.
@@ -248,9 +234,7 @@ class Dispatcher(object):
             pass
         return results
 
-    async def async_call_handlers_for_packet(
-        self, data: bytes, client_address: Tuple[str, int]
-    ) -> List:
+    async def async_call_handlers_for_packet(self, data: bytes, client_address: Tuple[str, int]) -> List:
         """
         This function calls the handlers registered to the dispatcher for
         every message it found in the packet.
@@ -293,9 +277,7 @@ class Dispatcher(object):
                                 *timed_msg.message,
                             )
                         else:
-                            result = await handler.callback(
-                                timed_msg.message.address, *timed_msg.message
-                            )
+                            result = await handler.callback(timed_msg.message.address, *timed_msg.message)
                     else:
                         if handler.needs_reply_address:
                             result = handler.callback(
@@ -311,18 +293,14 @@ class Dispatcher(object):
                                 *timed_msg.message,
                             )
                         else:
-                            result = handler.callback(
-                                timed_msg.message.address, *timed_msg.message
-                            )
+                            result = handler.callback(timed_msg.message.address, *timed_msg.message)
                     if result:
                         results.append(result)
-        except osc_packet.ParseError as e:
+        except osc_packet.ParseError:
             pass
         return results
 
-    def set_default_handler(
-        self, handler: Callable, needs_reply_address: bool = False
-    ) -> None:
+    def set_default_handler(self, handler: Callable, needs_reply_address: bool = False) -> None:
         """Sets the default handler
 
         The default handler is invoked every time no other handler is mapped to an address.
@@ -331,6 +309,4 @@ class Dispatcher(object):
             handler: Callback function to handle unmapped requests
             needs_reply_address: Whether the callback shall be passed the client address
         """
-        self._default_handler = (
-            None if (handler is None) else Handler(handler, [], needs_reply_address)
-        )
+        self._default_handler = None if (handler is None) else Handler(handler, [], needs_reply_address)
