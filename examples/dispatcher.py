@@ -1,5 +1,6 @@
+from typing import Any, List
+
 from pythonosc.dispatcher import Dispatcher
-from typing import List, Any
 from pythonosc.osc_server import BlockingOSCUDPServer
 from pythonosc.udp_client import SimpleUDPClient
 

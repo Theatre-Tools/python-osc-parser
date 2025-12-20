@@ -4,12 +4,10 @@ It lets you access easily to OscMessage and OscBundle instances in the packet.
 """
 
 import time
-
-from pythonosc.parsing import osc_types
-from pythonosc import osc_bundle
-from pythonosc import osc_message
-
 from typing import List, NamedTuple
+
+from pythonosc import osc_bundle, osc_message
+from pythonosc.parsing import osc_types
 
 # A namedtuple as returned my the _timed_msg_of_bundle function.
 # 1) the system time at which the message should be executed
@@ -24,9 +22,7 @@ TimedMessage = NamedTuple(
 )
 
 
-def _timed_msg_of_bundle(
-    bundle: osc_bundle.OscBundle, now: float
-) -> List[TimedMessage]:
+def _timed_msg_of_bundle(bundle: osc_bundle.OscBundle, now: float) -> List[TimedMessage]:
     """Returns messages contained in nested bundles as a list of TimedMessage."""
     msgs = []
     for content in bundle:
@@ -71,10 +67,7 @@ class OscPacket(object):
                 self._messages = [TimedMessage(now, osc_message.OscMessage(dgram))]
             else:
                 # Empty packet, should not happen as per the spec but heh, UDP...
-                raise ParseError(
-                    "OSC Packet should at least contain an OscMessage or an "
-                    "OscBundle."
-                )
+                raise ParseError("OSC Packet should at least contain an OscMessage or an OscBundle.")
         except (osc_bundle.ParseError, osc_message.ParseError) as pe:
             raise ParseError(f"Could not parse packet {pe}")
 

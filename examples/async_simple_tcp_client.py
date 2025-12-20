@@ -29,9 +29,7 @@ async def send_messages(client):
 async def init_main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip", default="127.0.0.1", help="The ip of the OSC server")
-    parser.add_argument(
-        "--port", type=int, default=5005, help="The port the OSC server is listening on"
-    )
+    parser.add_argument("--port", type=int, default=5005, help="The port the OSC server is listening on")
     parser.add_argument(
         "--mode",
         default="1.1",
@@ -39,9 +37,7 @@ async def init_main():
     )
     args = parser.parse_args()
 
-    async with tcp_client.AsyncSimpleTCPClient(
-        args.ip, args.port, mode=args.mode
-    ) as client:
+    async with tcp_client.AsyncSimpleTCPClient(args.ip, args.port, mode=args.mode) as client:
         async with asyncio.TaskGroup() as tg:
             tg.create_task(get_messages(client))
             tg.create_task(send_messages(client))

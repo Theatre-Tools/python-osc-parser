@@ -1,11 +1,9 @@
 """Unit tests for the osc_types module."""
 
 import unittest
-
-from pythonosc.parsing import ntp
-from pythonosc.parsing import osc_types
-
 from datetime import datetime
+
+from pythonosc.parsing import ntp, osc_types
 
 
 class TestString(unittest.TestCase):
@@ -64,14 +62,10 @@ class TestInteger(unittest.TestCase):
             self.assertRaises(osc_types.ParseError, osc_types.get_int, case, 0)
 
     def test_get_integer_raises_on_wrong_start_index(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_int, b"\x00\x00\x00\x11", 1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_int, b"\x00\x00\x00\x11", 1)
 
     def test_get_integer_raises_on_wrong_start_index_negative(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_int, b"\x00\x00\x00\x00", -1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_int, b"\x00\x00\x00\x00", -1)
 
     def test_datagram_too_short(self):
         dgram = b"\x00" * 3
@@ -102,14 +96,10 @@ class TestRGBA(unittest.TestCase):
             self.assertRaises(osc_types.ParseError, osc_types.get_rgba, case, 0)
 
     def test_get_rgba_raises_on_wrong_start_index(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_rgba, b"\x00\x00\x00\x11", 1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_rgba, b"\x00\x00\x00\x11", 1)
 
     def test_get_rgba_raises_on_wrong_start_index_negative(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_rgba, b"\x00\x00\x00\x00", -1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_rgba, b"\x00\x00\x00\x00", -1)
 
     def test_datagram_too_short(self):
         dgram = b"\x00" * 3
@@ -139,14 +129,10 @@ class TestMidi(unittest.TestCase):
             self.assertRaises(osc_types.ParseError, osc_types.get_midi, case, 0)
 
     def test_get_midi_raises_on_wrong_start_index(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_midi, b"\x00\x00\x00\x11", 1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_midi, b"\x00\x00\x00\x11", 1)
 
     def test_get_midi_raises_on_wrong_start_index_negative(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_midi, b"\x00\x00\x00\x00", -1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_midi, b"\x00\x00\x00\x00", -1)
 
     def test_datagram_too_short(self):
         dgram = b"\x00" * 3
@@ -292,19 +278,13 @@ class TestBlob(unittest.TestCase):
             self.assertRaises(osc_types.ParseError, osc_types.get_blob, case, 0)
 
     def test_get_blob_raises_on_wrong_start_index(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x11", 1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x11", 1)
 
     def test_get_blob_raises_too_short_buffer(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x11\x00\x00", 1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x11\x00\x00", 1)
 
     def test_get_blog_raises_on_wrong_start_index_negative(self):
-        self.assertRaises(
-            osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x00", -1
-        )
+        self.assertRaises(osc_types.ParseError, osc_types.get_blob, b"\x00\x00\x00\x00", -1)
 
 
 class TestNTPTimestamp(unittest.TestCase):
@@ -354,9 +334,7 @@ class TestBuildMethods(unittest.TestCase):
         self.assertRaises(osc_types.BuildError, osc_types.write_float, "no float")
 
     def test_blob(self):
-        self.assertEqual(
-            b"\x00\x00\x00\x02\x00\x01\x00\x00", osc_types.write_blob(b"\x00\x01")
-        )
+        self.assertEqual(b"\x00\x00\x00\x02\x00\x01\x00\x00", osc_types.write_blob(b"\x00\x01"))
         self.assertEqual(
             b"\x00\x00\x00\x04\x00\x01\x02\x03",
             osc_types.write_blob(b"\x00\x01\x02\x03"),
