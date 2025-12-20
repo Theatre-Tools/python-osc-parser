@@ -8,9 +8,15 @@ version = "1.9.3"
 description = "Open Sound Control server and client implementations in pure Python"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE.txt" }
+license = "MIT"
 authors = [
     { name = "attwad", email = "tmusoft@gmail.com" },
+    { name = "Morph Tollon", email = "code@morphtollon.co.uk"},
+    { name = "Ripple", email = "github@ripple.contact"}
+]
+maintainers = [
+    { name = "Morph Tollon", email = "code@morphtollon.co.uk"},
+    { name = "Ripple", email = "github@ripple.contact"}
 ]
 keywords = ["osc", "sound", "midi", "music"]
 classifiers = [
@@ -23,7 +29,7 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/attwad/python-osc"
+Repository = "https://gitlab.com/Theatre-Tools/python-osc"
 
 [dependency-groups]
 dev = [
