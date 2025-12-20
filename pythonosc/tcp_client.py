@@ -10,7 +10,9 @@ from pythonosc.dispatcher import Dispatcher
 from pythonosc.osc_bundle import OscBundle
 from pythonosc.osc_message import OscMessage
 from pythonosc.osc_message_builder import ArgValue, build_msg
-from pythonosc.osc_tcp_server import MODE_1_1
+
+MODE_1_0 = "1.0"
+MODE_1_1 = "1.1"
 
 
 class TCPClient(object):
