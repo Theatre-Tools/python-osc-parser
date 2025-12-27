@@ -6,24 +6,26 @@ compatibility and correctness of the oscparser implementation.
 
 import unittest
 
-from oscparser.ctx import DataBuffer
-from oscparser.decode import OSCDecoder
-from oscparser.encode import OSCEncoder, OSCFraming, OSCModes
-from oscparser.processing.osc.handlers import register_osc_handlers
-from oscparser.processing.osc.processing import OSCDispatcher
-from oscparser.types import (
+from oscparser import (
     OSCArray,
     OSCBlob,
     OSCBundle,
+    OSCDecoder,
+    OSCEncoder,
     OSCFalse,
     OSCFloat,
+    OSCFraming,
     OSCInt,
     OSCInt64,
     OSCMessage,
+    OSCModes,
     OSCNil,
     OSCString,
     OSCTrue,
 )
+from oscparser.ctx import DataBuffer
+from oscparser.processing.osc.handlers import register_osc_handlers
+from oscparser.processing.osc.processing import OSCDispatcher
 
 # Real OSC datagrams from Reaktor 5.8 by Native Instruments
 _DGRAM_KNOB_ROTATES = b"/FB\x00,f\x00\x00>xca=q"
