@@ -55,3 +55,6 @@ exclude = ["tests", ".venv", "test_*"]
 
 [tool.poetry.dependencies]
 pydantic = "^2.12.5"
+
+[tool.poetry.repositories]
+testpypi = "https://test.pypi.org/legacy/"
