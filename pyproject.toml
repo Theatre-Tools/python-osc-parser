@@ -3,14 +3,13 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pythonosc"
-version = "1.9.3"
-description = "Open Sound Control server and client implementations in pure Python"
+name = "oscparser"
+version = "1.0.0"
+description = "Library for parsing and building Open Sound Control (OSC) messages and bundles."
 readme = "README.md"
-requires-python = ">=3.10"
-license = "MIT"
+requires-python = ">=3.13, <3.14"
+license = { file = "LICENSE" }
 authors = [
-    { name = "attwad", email = "tmusoft@gmail.com" },
     { name = "Morph Tollon", email = "code@morphtollon.co.uk"},
     { name = "Ripple", email = "github@ripple.contact"}
 ]
@@ -29,17 +28,17 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://gitlab.com/Theatre-Tools/python-osc"
+Repository = "https://gitlab.com/Theatre-Tools/python-osc-parser"
+Homepage = "https://gitlab.com/Theatre-Tools/python-osc-parser"
+Issues = "https://gitlab.com/Theatre-Tools/python-osc-parser/-/issues"
 
 [dependency-groups]
 dev = [
     "pyright[nodejs] (>=1.1.407,<2.0.0)",
     "ruff (>=0.14.10,<0.15.0)",
     "lefthook (>=2.0.12,<3.0.0)",
-    "build (>=1.3.0,<2.0.0)",
-    "mypy (>=1.19.1,<2.0.0)",
     "pytest (>=9.0.2,<10.0.0)",
-    "flake8 (>=7.3.0,<8.0.0)"
+    "twine (>=6.2.0,<7.0.0)"
 ]
 
 
@@ -52,4 +51,7 @@ line-length = 127
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
-exclude = ["tests", ".venv"]
+exclude = ["tests", ".venv", "test_*"]
+
+[tool.poetry.dependencies]
+pydantic = "^2.12.5"
