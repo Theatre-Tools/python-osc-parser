@@ -29,6 +29,8 @@ classifiers = [
 
 [project.urls]
 Repository = "https://gitlab.com/Theatre-Tools/python-osc-parser"
+Homepage = "https://gitlab.com/Theatre-Tools/python-osc-parser"
+Issues = "https://gitlab.com/Theatre-Tools/python-osc-parser/-/issues"
 
 [dependency-groups]
 dev = [
