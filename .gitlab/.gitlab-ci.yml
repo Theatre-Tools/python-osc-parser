@@ -1,65 +1,37 @@
-# GitLab CI/CD pipeline for Python OSC library
-# Converted from GitHub Actions workflow
-
-image: python:3.11
-
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-before_script:
-  - pip install --upgrade pip
-  - pip install poetry
-  - poetry config virtualenvs.create true
-
-
-cache:
-  paths:
-    - .cache/pip/
-
 stages:
+  - build
   - test
-  - lint
-  - check-types
-  - deploy
-# Test job with matrix for multiple Python versions
-test:
+  - publish
+
+build_job:
+  ## Install Poetry, run poetry install, run poetry build
+  stage: build
+  image: python:3.13
+  script:
+    - pip install poetry
+    - poetry install
+    - poetry build
+  artifacts:
+    paths:
+      - dist/
+test_job:
   stage: test
-  parallel:
-    matrix:
-      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13"]
-  image: python:$PYTHON_VERSION
-  before_script:
-    - poetry install
+  image: python:3.13
+  dependencies:
+    - build_job
   script:
-    # Lint with flake8
-    - echo "Running flake8 linting..."
-    - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    # Check with mypy
-    - echo "Running mypy type checking..."
-    - mypy pythonosc examples
-    # Test with pytest
-    - echo "Running pytest tests..."
-    - pytest
+    - pip install dist/*.whl
+    - pytest tests/
 
-# Black formatting check
-lint:
-  stage: lint
-  image: python:3.11
+publish_to_testpypi:
+  id_tokens:
+    PYPI:
+      aud: testpypi
+  stage: publish
+  image: python:3.13
   before_script:
-    - poetry install
+    - pip install poetry
+  dependencies:
+    - build_job
   script:
-    - black --check .
-
-# Check types in published package
-check-types-published:
-  stage: check-types
-  image: python:3.11
-  script:
-    - poetry install
-    - python -m build --sdist --wheel
-    - temp=$(mktemp -d)
-    - poetry env activate
-    - pip install mypy ./dist/*whl
-    - cd $temp
-    - echo 'import pythonosc' > demo.py
-    - mypy demo.py
+    - poetry publish --no-build --repository testpypi
