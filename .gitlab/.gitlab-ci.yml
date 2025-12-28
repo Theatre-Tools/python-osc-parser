@@ -31,6 +31,7 @@ publish_to_testpypi:
   image: python:3.13
   before_script:
     - pip install poetry
+    - poetry config repositories.testpypi https://test.pypi.org/legacy/
   dependencies:
     - build_job
   script:
