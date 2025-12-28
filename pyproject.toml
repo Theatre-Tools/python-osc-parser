@@ -3,14 +3,13 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pythonosc"
-version = "1.9.3"
-description = "Open Sound Control server and client implementations in pure Python"
+name = "oscparser"
+version = "1.0.0"
+description = "Library for parsing and building Open Sound Control (OSC) messages and bundles."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13, <3.14"
 license = { file = "LICENSE" }
 authors = [
-    { name = "attwad", email = "tmusoft@gmail.com" },
     { name = "Morph Tollon", email = "code@morphtollon.co.uk"},
     { name = "Ripple", email = "github@ripple.contact"}
 ]
