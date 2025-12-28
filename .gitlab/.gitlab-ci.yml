@@ -21,6 +21,7 @@ test_job:
     - build_job
   script:
     - pip install dist/*.whl
+    - pip install poetry
     - poetry run python3 tests/test_oscparser.py
 
 publish_to_testpypi:
