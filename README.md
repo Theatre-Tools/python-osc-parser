@@ -1,7 +1,6 @@
-# Python OSC Client
+# Python OSC Parser
 
-Open Sound Control client implementations.
-
+Open Sound Control (OSC) protocol implementation in Python.
 ## Current status
 
 This library was developed following the
@@ -10,23 +9,8 @@ and is currently in a stable state.
 
 ## Features
 
-* UDP and TCP clients, including asyncio support
-* TCP support for 1.0 and 1.1 protocol formats
-* int, int64, float, string, double, MIDI, timestamps, blob, nil OSC arguments
-* simple OSC address<->callback matching system
-* support for sending responses from callback handlers in client and server
-* extensive unit test coverage
-* basic client examples
-
-## Documentation
-
-Available at In the documentation section of the gitlab repository.
-
-
-## Examples
-
-Please ignore these code snippets until current refractoring is done.
-
+- Parsing and constructing OSC messages and bundles.
+- Support for various OSC data types including integers, floats, strings, blobs, and more.
 
 ## License
 
