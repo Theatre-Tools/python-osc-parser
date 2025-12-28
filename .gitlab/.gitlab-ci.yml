@@ -21,7 +21,7 @@ test_job:
     - build_job
   script:
     - pip install dist/*.whl
-    - python3 tests/run_tests.py
+    - python3 tests/test_oscparser.py
 
 publish_to_testpypi:
   id_tokens:
