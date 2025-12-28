@@ -17,10 +17,10 @@ build_job:
 test_job:
   stage: test
   image: python:3.13
-  dependencies:
-    - build_job
+  before_script:
+    - pip install poetry
   script:
-    - pip install dist/*.whl
+    - poetry install
     - python3 tests/test_oscparser.py
 
 publish_to_testpypi:
