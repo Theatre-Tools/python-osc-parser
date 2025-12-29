@@ -55,3 +55,18 @@ publish_to_gitlab:
     - build
   script:
     - poetry run twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+
+publish_to_pypi:
+  id_tokens:
+    PYPI_ID_TOKEN: 
+      aud: pypi
+  stage: publish
+  image: python:3.13
+  before_script:
+    - pip install poetry
+    - poetry lock
+    - poetry install
+  dependencies:
+    - build
+  script:
+    - poetry run twine upload dist/* 
