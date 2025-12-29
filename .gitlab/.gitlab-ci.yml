@@ -3,7 +3,7 @@ stages:
   - test
   - publish
 
-build_job:
+build:
   ## Install Poetry, run poetry install, run poetry build
   stage: build
   image: python:3.13
@@ -35,9 +35,20 @@ publish_to_testpypi:
     - pip install poetry
     - poetry install
   dependencies:
-    - build_job
+    - build
   script:
     - poetry run twine upload --repository testpypi dist/*
   
-  
-
+publish_to_gitlab:
+  image: python:latest
+  stage: publish
+  variables:
+    TWINE_USERNAME: gitlab-ci-token
+    TWINE_PASSWORD: $CI_JOB_TOKEN
+  before_script:
+    - pip install poetry
+    - poetry install
+  dependencies:
+    - build
+  script:
+    - poetry run twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
