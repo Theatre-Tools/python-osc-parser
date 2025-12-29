@@ -31,6 +31,9 @@ publish_to_testpypi:
       aud: testpypi
   stage: publish
   image: python:3.13
+  variables:
+    TWINE_USERNAME: "__token__"
+    TWINE_PASSWORD: "$PYPI_ID_TOKEN"
   before_script:
     - pip install poetry
     - poetry config repositories.testpypi https://test.pypi.org/legacy/
