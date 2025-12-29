@@ -20,9 +20,9 @@ test_job:
   before_script:
     - pip install poetry
     - poetry install
-    - poetry env activate
   script:
-    - python3 -m unittest tests/test_oscparser.py
+      - poetry env activate
+      - python3 -m unittest tests/test_oscparser.py
 
 publish_to_testpypi:
   id_tokens:
