@@ -35,4 +35,4 @@ publish_to_testpypi:
   dependencies:
     - build_job
   script:
-    - poetry publish --no-build --repository testpypi
+    - poetry publish --repository testpypi
