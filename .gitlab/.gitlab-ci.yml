@@ -19,8 +19,9 @@ test_job:
   image: python:3.13
   before_script:
     - pip install poetry
-  script:
     - poetry install
+    - poetry env activate
+  script:
     - python3 -m unittest tests/test_oscparser.py
 
 publish_to_testpypi:
