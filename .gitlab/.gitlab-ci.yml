@@ -37,4 +37,6 @@ publish_to_testpypi:
   dependencies:
     - build_job
   script:
-    - poetry run twine upload --repository testpypi dist/* --verbose
+    - poetry config pypi-token.testpypi $TESTPYPI_ID_TOKEN
+    - poetry publish -r testpypi
+
