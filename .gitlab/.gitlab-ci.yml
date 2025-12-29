@@ -27,8 +27,8 @@ test_job:
 
 publish_to_testpypi:
   id_tokens:
-    pypi_id_token: 
-      aud: pypi
+    PYPI_ID_TOKEN: 
+      aud: testpypi
   stage: publish
   image: python:3.13
   before_script:
