@@ -37,6 +37,7 @@ publish_to_testpypi:
   dependencies:
     - build_job
   script:
+    - poetry config repositories.testpypi https://test.pypi.org/legacy/
     - poetry config pypi-token.testpypi $TESTPYPI_ID_TOKEN
     - poetry publish -r testpypi
 
