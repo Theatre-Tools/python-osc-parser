@@ -28,14 +28,13 @@ test_job:
 publish_to_testpypi:
   id_tokens:
     TEST_PYPI_TOKEN: 
-      aud: testpypi
+      aud: pypi
   stage: publish
   image: python:3.13
   before_script:
     - pip install poetry
     - poetry config repositories.testpypi https://test.pypi.org/legacy/
     - poetry config pypi-token.testpypi $TEST_PYPI_TOKEN
-    - poetry config pypi-username.testpypi __token__
   dependencies:
     - build_job
   script:
