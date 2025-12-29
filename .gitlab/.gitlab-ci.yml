@@ -21,7 +21,7 @@ test_job:
     - pip install poetry
   script:
     - poetry install
-    - python3 tests/test_oscparser.py
+    - python3 -m unittest tests/test_oscparser.py
 
 publish_to_testpypi:
   id_tokens:
