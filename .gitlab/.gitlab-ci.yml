@@ -28,15 +28,13 @@ test_job:
 publish_to_testpypi:
   id_tokens:
     PYPI_ID_TOKEN: 
-      aud: pypi
+      aud: testpypi
   stage: publish
   image: python:3.13
-  variables:
-    TWINE_USERNAME: "__token__"
-    TWINE_PASSWORD: "$PYPI_ID_TOKEN"
   before_script:
     - pip install poetry
+    - poetry install
   dependencies:
     - build_job
   script:
-    - poetry publish
+    - poetry run twine upload --repository testpypi dist/*

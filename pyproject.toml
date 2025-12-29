@@ -56,3 +56,4 @@ exclude = ["tests", ".venv", "test_*"]
 
 [tool.poetry.dependencies]
 pydantic = "^2.12.5"
+twine = "^6.2.0"
