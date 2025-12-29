@@ -7,9 +7,10 @@ build_job:
   ## Install Poetry, run poetry install, run poetry build
   stage: build
   image: python:3.13
-  script:
+  before_script:
     - pip install poetry
     - poetry install
+  script:
     - poetry build
   artifacts:
     paths:
