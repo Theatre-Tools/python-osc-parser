@@ -9,7 +9,8 @@ build:
   image: python:3.13
   before_script:
     - pip install poetry
-    - poetry install
+    - poetry lock
+    - poetry install --with dev
   script:
     - poetry build
   artifacts:
@@ -33,6 +34,7 @@ publish_to_testpypi:
   image: python:3.13
   before_script:
     - pip install poetry
+    - poetry lock
     - poetry install
   dependencies:
     - build
@@ -47,7 +49,8 @@ publish_to_gitlab:
     TWINE_PASSWORD: $CI_JOB_TOKEN
   before_script:
     - pip install poetry
-    - poetry install
+    - poetry lock
+    - poetry install --with dev
   dependencies:
     - build
   script:
