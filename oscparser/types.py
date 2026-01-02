@@ -11,7 +11,7 @@ It does **not** implement parsing or encoding; it is purely types.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import ClassVar, Tuple, Union
+from typing import Literal, Tuple, Union
 
 from pydantic import BaseModel
 
@@ -26,119 +26,197 @@ class _FrozenModel(BaseModel):
 class OSCInt(_FrozenModel):
     """32-bit signed integer argument (tag 'i')."""
 
-    TAG: ClassVar[str] = "i"
+    TAG: Literal["i"] = "i"
     value: int
 
     def __init__(self, value: int) -> None:
         super().__init__(value=value)  # type: ignore
+
+    @classmethod
+    def new(cls, value: int) -> OSCInt:
+        """Create a new OSCInt instance."""
+
+        return cls(value=value)
 
 
 class OSCFloat(_FrozenModel):
     """32-bit IEEE 754 floating point argument (tag 'f')."""
 
-    TAG: ClassVar[str] = "f"
+    TAG: Literal["f"] = "f"
     value: float
 
     def __init__(self, value: float) -> None:
         super().__init__(value=value)  # type: ignore
+
+    @classmethod
+    def new(cls, value: float) -> OSCFloat:
+        """Create a new OSCFloat instance."""
+
+        return cls(value=value)
 
 
 class OSCString(_FrozenModel):
     """OSC string argument (tag 's')."""
 
-    TAG: ClassVar[str] = "s"
+    TAG: Literal["s"] = "s"
     value: str
 
     def __init__(self, value: str) -> None:
         super().__init__(value=value)  # type: ignore
+
+    @classmethod
+    def new(cls, value: str) -> OSCString:
+        """Create a new OSCString instance."""
+
+        return cls(value=value)
 
 
 class OSCBlob(_FrozenModel):
     """OSC blob argument (tag 'b')."""
 
-    TAG: ClassVar[str] = "b"
+    TAG: Literal["b"] = "b"
     value: bytes
 
     def __init__(self, value: bytes) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: bytes) -> OSCBlob:
+        """Create a new OSCBlob instance."""
+
+        return cls(value=value)
+
 
 class OSCTrue(_FrozenModel):
     """Boolean true argument (tag 'T')."""
 
-    TAG: ClassVar[str] = "T"
+    TAG: Literal["T"] = "T"
+
+    @classmethod
+    def new(cls) -> OSCTrue:
+        """Create a new OSCTrue instance."""
+
+        return cls()
 
 
 class OSCFalse(_FrozenModel):
     """Boolean false argument (tag 'F')."""
 
-    TAG: ClassVar[str] = "F"
+    TAG: Literal["F"] = "F"
+
+    @classmethod
+    def new(cls) -> OSCFalse:
+        """Create a new OSCFalse instance."""
+
+        return cls()
 
 
 class OSCNil(_FrozenModel):
     """Nil / null argument (tag 'N')."""
 
-    TAG: ClassVar[str] = "N"
+    TAG: Literal["N"] = "N"
+
+    @classmethod
+    def new(cls) -> OSCNil:
+        """Create a new OSCNil instance."""
+
+        return cls()
 
 
 class OSCInt64(_FrozenModel):
     """64-bit signed integer argument (tag 'h')."""
 
-    TAG: ClassVar[str] = "h"
+    TAG: Literal["h"] = "h"
     value: int
 
     def __init__(self, value: int) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: int) -> OSCInt64:
+        """Create a new OSCInt64 instance."""
+
+        return cls(value=value)
+
 
 class OSCDouble(_FrozenModel):
     """64-bit IEEE 754 floating point argument (tag 'd')."""
 
-    TAG: ClassVar[str] = "d"
+    TAG: Literal["d"] = "d"
     value: float
 
     def __init__(self, value: float) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: float) -> OSCDouble:
+        """Create a new OSCDouble instance."""
+
+        return cls(value=value)
+
 
 class OSCTimeTag(_FrozenModel):
     """OSC timetag argument (tag 't'), represented as a datetime."""
 
-    TAG: ClassVar[str] = "t"
+    TAG: Literal["t"] = "t"
     value: datetime
 
     def __init__(self, value: datetime) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: datetime) -> OSCTimeTag:
+        """Create a new OSCTimeTag instance."""
+
+        return cls(value=value)
+
 
 class OSCChar(_FrozenModel):
     """Single ASCII / UTF-8 character argument (tag 'c')."""
 
-    TAG: ClassVar[str] = "c"
+    TAG: Literal["c"] = "c"
     value: str  # usually length 1
 
     def __init__(self, value: str) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: str) -> OSCChar:
+        """Create a new OSCChar instance."""
+
+        return cls(value=value)
+
 
 class OSCSymbol(_FrozenModel):
     """Symbol argument (tag 'S'), semantically distinct from a string."""
 
-    TAG: ClassVar[str] = "S"
+    TAG: Literal["S"] = "S"
     value: str
 
     def __init__(self, value: str) -> None:
         super().__init__(value=value)  # type: ignore
 
+    @classmethod
+    def new(cls, value: str) -> OSCSymbol:
+        """Create a new OSCSymbol instance."""
+
+        return cls(value=value)
+
 
 class OSCRGBA(_FrozenModel):
     """RGBA color argument (tag 'r')."""
 
-    TAG: ClassVar[str] = "r"
+    TAG: Literal["r"] = "r"
     r: int
     g: int
     b: int
     a: int
+
+    @classmethod
+    def new(cls, r: int, g: int, b: int, a: int) -> OSCRGBA:
+        """Create a new OSCRGBA instance."""
+
+        return cls(r=r, g=g, b=b, a=a)
 
 
 class OSCMidi(_FrozenModel):
@@ -151,12 +229,18 @@ class OSCMidi(_FrozenModel):
     - data2
     """
 
-    TAG: ClassVar[str] = "m"
+    TAG: Literal["m"] = "m"
 
     port_id: int
     status: int
     data1: int
     data2: int
+
+    @classmethod
+    def new(cls, port_id: int, status: int, data1: int, data2: int) -> OSCMidi:
+        """Create a new OSCMidi instance."""
+
+        return cls(port_id=port_id, status=status, data1=data1, data2=data2)
 
 
 class OSCImpulse(_FrozenModel):
@@ -165,10 +249,15 @@ class OSCImpulse(_FrozenModel):
     There is no payload; the presence of this value is the data.
     """
 
-    TAG: ClassVar[str] = "I"
+    TAG: Literal["I"] = "I"
 
     # No fields
-    pass
+
+    @classmethod
+    def new(cls) -> OSCImpulse:
+        """Create a new OSCImpulse instance."""
+
+        return cls()
 
 
 # Singleton instance that can be reused for all impulse arguments.
@@ -182,12 +271,22 @@ class OSCArray(_FrozenModel):
     arrays (nested arrays are allowed by the 1.0 spec).
     """
 
-    OPEN_TAG: ClassVar[str] = "["
-    CLOSE_TAG: ClassVar[str] = "]"
     items: tuple["OSCArg", ...]
 
-    def __init__(self, items: tuple["OSCArg", ...]) -> None:
-        super().__init__(items=items)  # type: ignore
+    OPEN_TAG: Literal["["] = "["
+    CLOSE_TAG: Literal["]"] = "]"
+
+    @classmethod
+    def new(cls, items: Tuple["OSCArg", ...]) -> OSCArray:
+        """Create a new OSCArray instance.
+
+        Args:
+            items: Sequence of OSCArg items to include in the array
+
+        Returns:
+            An OSCArray instance containing the provided items
+        """
+        return cls(items=items)
 
 
 # === Composite packet types (messages and bundles) ===
