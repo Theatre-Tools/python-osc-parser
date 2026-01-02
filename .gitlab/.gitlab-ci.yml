@@ -52,14 +52,7 @@ publish_to_testpypi:
     - build
   script:
     - poetry run twine upload --repository testpypi dist/*
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        compare_to: 'refs/heads/$CI_DEFAULT_BRANCH'
-        paths:
-          - pyproject.toml
-      when: on_success
-    - when: never
+
   
 publish_to_gitlab:
   image: python:latest
@@ -75,14 +68,7 @@ publish_to_gitlab:
     - build
   script:
     - poetry run twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        compare_to: 'refs/heads/$CI_DEFAULT_BRANCH'
-        paths:
-          - pyproject.toml
-      when: on_success
-    - when: never
+
 
 publish_to_pypi:
   id_tokens:
@@ -90,14 +76,7 @@ publish_to_pypi:
       aud: pypi
   stage: publish
   image: python:3.13
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        compare_to: 'refs/heads/$CI_DEFAULT_BRANCH'
-        paths:
-          - pyproject.toml
-      when: on_success
-    - when: never
+
   before_script:
     - pip install poetry
     - poetry lock
