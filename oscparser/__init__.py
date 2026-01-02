@@ -8,7 +8,7 @@ Basic usage:
     >>> from oscparser import OSCEncoder, OSCDecoder, OSCMessage, OSCInt, OSCModes, OSCFraming
     >>> encoder = OSCEncoder(OSCModes.UDP, OSCFraming.OSC10)
     >>> decoder = OSCDecoder(OSCModes.UDP, OSCFraming.OSC10)
-    >>> msg = OSCMessage(address="/test", args=(OSCInt(value=42),))
+    >>> msg = OSCMessage(address="/test", args=(OSCInt(42),))
     >>> encoded = encoder.encode(msg)
     >>> decoded = list(decoder.feed(encoded))[0]
 """
