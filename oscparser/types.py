@@ -29,12 +29,18 @@ class OSCInt(_FrozenModel):
     TAG: ClassVar[str] = "i"
     value: int
 
+    def __init__(self, value: int) -> None:
+        super().__init__(value=value)  # type: ignore
+
 
 class OSCFloat(_FrozenModel):
     """32-bit IEEE 754 floating point argument (tag 'f')."""
 
     TAG: ClassVar[str] = "f"
     value: float
+
+    def __init__(self, value: float) -> None:
+        super().__init__(value=value)  # type: ignore
 
 
 class OSCString(_FrozenModel):
@@ -43,12 +49,18 @@ class OSCString(_FrozenModel):
     TAG: ClassVar[str] = "s"
     value: str
 
+    def __init__(self, value: str) -> None:
+        super().__init__(value=value)  # type: ignore
+
 
 class OSCBlob(_FrozenModel):
     """OSC blob argument (tag 'b')."""
 
     TAG: ClassVar[str] = "b"
     value: bytes
+
+    def __init__(self, value: bytes) -> None:
+        super().__init__(value=value)  # type: ignore
 
 
 class OSCTrue(_FrozenModel):
@@ -75,12 +87,18 @@ class OSCInt64(_FrozenModel):
     TAG: ClassVar[str] = "h"
     value: int
 
+    def __init__(self, value: int) -> None:
+        super().__init__(value=value)  # type: ignore
+
 
 class OSCDouble(_FrozenModel):
     """64-bit IEEE 754 floating point argument (tag 'd')."""
 
     TAG: ClassVar[str] = "d"
     value: float
+
+    def __init__(self, value: float) -> None:
+        super().__init__(value=value)  # type: ignore
 
 
 class OSCTimeTag(_FrozenModel):
@@ -89,6 +107,9 @@ class OSCTimeTag(_FrozenModel):
     TAG: ClassVar[str] = "t"
     value: datetime
 
+    def __init__(self, value: datetime) -> None:
+        super().__init__(value=value)  # type: ignore
+
 
 class OSCChar(_FrozenModel):
     """Single ASCII / UTF-8 character argument (tag 'c')."""
@@ -96,12 +117,18 @@ class OSCChar(_FrozenModel):
     TAG: ClassVar[str] = "c"
     value: str  # usually length 1
 
+    def __init__(self, value: str) -> None:
+        super().__init__(value=value)  # type: ignore
+
 
 class OSCSymbol(_FrozenModel):
     """Symbol argument (tag 'S'), semantically distinct from a string."""
 
     TAG: ClassVar[str] = "S"
     value: str
+
+    def __init__(self, value: str) -> None:
+        super().__init__(value=value)  # type: ignore
 
 
 class OSCRGBA(_FrozenModel):
@@ -158,6 +185,9 @@ class OSCArray(_FrozenModel):
     OPEN_TAG: ClassVar[str] = "["
     CLOSE_TAG: ClassVar[str] = "]"
     items: tuple["OSCArg", ...]
+
+    def __init__(self, items: tuple["OSCArg", ...]) -> None:
+        super().__init__(items=items)  # type: ignore
 
 
 # === Composite packet types (messages and bundles) ===
