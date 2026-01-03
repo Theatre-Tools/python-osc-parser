@@ -59,4 +59,4 @@ jobs:
       - name: Test package installation
         run: |
           pip install dist/*.whl
-          python -c "import bws_sdk; print('Package imported successfully')"
+          python -c "import oscparser; print('Package imported successfully')"
