@@ -12,20 +12,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.13", "3.12", "3.11"]
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Install poetry
         run: pipx install poetry
 
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.13"
           cache: "poetry"
 
       - name: Install dependencies
