@@ -29,9 +29,6 @@ class OSCInt(_FrozenModel):
     TAG: Literal["i"] = "i"
     value: int
 
-    def __init__(self, value: int) -> None:
-        super().__init__(value=value)  # type: ignore
-
     @classmethod
     def new(cls, value: int) -> OSCInt:
         """Create a new OSCInt instance."""
@@ -44,9 +41,6 @@ class OSCFloat(_FrozenModel):
 
     TAG: Literal["f"] = "f"
     value: float
-
-    def __init__(self, value: float) -> None:
-        super().__init__(value=value)  # type: ignore
 
     @classmethod
     def new(cls, value: float) -> OSCFloat:
@@ -61,9 +55,6 @@ class OSCString(_FrozenModel):
     TAG: Literal["s"] = "s"
     value: str
 
-    def __init__(self, value: str) -> None:
-        super().__init__(value=value)  # type: ignore
-
     @classmethod
     def new(cls, value: str) -> OSCString:
         """Create a new OSCString instance."""
@@ -76,9 +67,6 @@ class OSCBlob(_FrozenModel):
 
     TAG: Literal["b"] = "b"
     value: bytes
-
-    def __init__(self, value: bytes) -> None:
-        super().__init__(value=value)  # type: ignore
 
     @classmethod
     def new(cls, value: bytes) -> OSCBlob:
@@ -129,9 +117,6 @@ class OSCInt64(_FrozenModel):
     TAG: Literal["h"] = "h"
     value: int
 
-    def __init__(self, value: int) -> None:
-        super().__init__(value=value)  # type: ignore
-
     @classmethod
     def new(cls, value: int) -> OSCInt64:
         """Create a new OSCInt64 instance."""
@@ -144,9 +129,6 @@ class OSCDouble(_FrozenModel):
 
     TAG: Literal["d"] = "d"
     value: float
-
-    def __init__(self, value: float) -> None:
-        super().__init__(value=value)  # type: ignore
 
     @classmethod
     def new(cls, value: float) -> OSCDouble:
@@ -161,9 +143,6 @@ class OSCTimeTag(_FrozenModel):
     TAG: Literal["t"] = "t"
     value: datetime
 
-    def __init__(self, value: datetime) -> None:
-        super().__init__(value=value)  # type: ignore
-
     @classmethod
     def new(cls, value: datetime) -> OSCTimeTag:
         """Create a new OSCTimeTag instance."""
@@ -177,9 +156,6 @@ class OSCChar(_FrozenModel):
     TAG: Literal["c"] = "c"
     value: str  # usually length 1
 
-    def __init__(self, value: str) -> None:
-        super().__init__(value=value)  # type: ignore
-
     @classmethod
     def new(cls, value: str) -> OSCChar:
         """Create a new OSCChar instance."""
@@ -192,9 +168,6 @@ class OSCSymbol(_FrozenModel):
 
     TAG: Literal["S"] = "S"
     value: str
-
-    def __init__(self, value: str) -> None:
-        super().__init__(value=value)  # type: ignore
 
     @classmethod
     def new(cls, value: str) -> OSCSymbol:
