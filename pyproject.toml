@@ -35,10 +35,9 @@ Issues = "https://gitlab.com/Theatre-Tools/python-osc-parser/-/issues"
 [dependency-groups]
 dev = [
     "pyright[nodejs] (>=1.1.407,<2.0.0)",
-    "ruff (>=0.14.10,<0.15.0)",
     "lefthook (>=2.0.12,<3.0.0)",
     "pytest (>=9.0.2,<10.0.0)",
-    "twine (>=6.2.0,<7.0.0)"
+    "ruff (>=0.14.10,<0.15.0)"
 ]
 
 
