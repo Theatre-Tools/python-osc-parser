@@ -4,10 +4,10 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "oscparser"
-version = "2.0.3"
+version = "2.0.4"
 description = "Library for parsing and building Open Sound Control (OSC) messages and bundles."
 readme = "README.md"
-requires-python = ">=3.13, <3.14"
+requires-python = ">=3.13"
 license = { file = "LICENSE" }
 authors = [
     { name = "Morph Tollon", email = "code@morphtollon.co.uk"},
