@@ -10,7 +10,7 @@ from oscparser.processing.osc.processing import OSCDispatcher
 from oscparser.types import OSCPacket
 
 
-class OSCModes(Enum):
+class OSCTransport(Enum):
     UDP = "udp"
     TCP = "tcp"
 
@@ -23,13 +23,13 @@ class OSCFraming(Enum):
 class OSCEncoder:
     """Encoder for OSC packets."""
 
-    def __init__(self, mode: OSCModes, framing: OSCFraming):
+    def __init__(self, transport: OSCTransport, framing: OSCFraming):
         """Initialize the framer.
 
         Args:
-            mode: Transport mode, either 'udp' or 'tcp'
+            transport: Transport mode, either 'udp' or 'tcp'
         """
-        self.framer = self.get_framer(mode, framing)
+        self.framer = self.get_framer(transport, framing)
         self.encoder = self.get_encoder()
 
     @staticmethod
@@ -44,19 +44,19 @@ class OSCEncoder:
         return dispatcher
 
     @staticmethod
-    def get_framer(mode: OSCModes, framing: OSCFraming) -> Framer:
-        """Get the appropriate framer class based on mode and framing.
+    def get_framer(transport: OSCTransport, framing: OSCFraming) -> Framer:
+        """Get the appropriate framer class based on transport and framing.
 
         Args:
-            mode: Transport mode (UDP or TCP)
+            transport: Transport mode (UDP or TCP)
             framing: Framing type (OSC10 or OSC11)
 
         Returns:
             The corresponding framer class
         """
-        if mode == OSCModes.UDP:
+        if transport == OSCTransport.UDP:
             return FullFramer()
-        elif mode == OSCModes.TCP:
+        elif transport == OSCTransport.TCP:
             if framing == OSCFraming.OSC10:
                 return OSC10Framer()
             elif framing == OSCFraming.OSC11:

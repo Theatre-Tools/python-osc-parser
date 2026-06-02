@@ -5,16 +5,16 @@ This module provides encoding and decoding for OSC packets with support for:
 - OSC 1.1 (TCP with SLIP framing)
 
 Basic usage:
-    >>> from oscparser import OSCEncoder, OSCDecoder, OSCMessage, OSCInt, OSCModes, OSCFraming
-    >>> encoder = OSCEncoder(OSCModes.UDP, OSCFraming.OSC10)
-    >>> decoder = OSCDecoder(OSCModes.UDP, OSCFraming.OSC10)
+    >>> from oscparser import OSCEncoder, OSCDecoder, OSCMessage, OSCInt, OSCTransport, OSCFraming
+    >>> encoder = OSCEncoder(OSCTransport.UDP, OSCFraming.OSC10)
+    >>> decoder = OSCDecoder(OSCTransport.UDP, OSCFraming.OSC10)
     >>> msg = OSCMessage(address="/test", args=(OSCInt(42),))
     >>> encoded = encoder.encode(msg)
     >>> decoded = list(decoder.feed(encoded))[0]
 """
 
 from oscparser.decode import OSCDecoder
-from oscparser.encode import OSCEncoder, OSCFraming, OSCModes
+from oscparser.encode import OSCEncoder, OSCFraming, OSCTransport
 from oscparser.types import (
     OSC_IMPULSE,
     OSCRGBA,
@@ -60,11 +60,11 @@ __all__ = [
     "OSCInt64",
     "OSCMessage",
     "OSCMidi",
-    "OSCModes",
     "OSCNil",
     "OSCPacket",
     "OSCString",
     "OSCSymbol",
     "OSCTimeTag",
+    "OSCTransport",
     "OSCTrue",
 ]
