@@ -18,9 +18,9 @@ from oscparser import (
     OSCInt,
     OSCInt64,
     OSCMessage,
-    OSCModes,
     OSCNil,
     OSCString,
+    OSCTransport,
     OSCTrue,
 )
 from oscparser.ctx import DataBuffer
@@ -303,8 +303,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_udp_encode_decode(self):
         """Test UDP encoding and decoding."""
-        encoder = OSCEncoder(OSCModes.UDP, OSCFraming.OSC10)
-        decoder = OSCDecoder(OSCModes.UDP, OSCFraming.OSC10)
+        encoder = OSCEncoder(OSCTransport.UDP, OSCFraming.OSC10)
+        decoder = OSCDecoder(OSCTransport.UDP, OSCFraming.OSC10)
 
         original = OSCMessage(address="/test", args=(OSCInt(value=123), OSCString(value="test")))
 
@@ -322,8 +322,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_tcp_osc10_encode_decode(self):
         """Test TCP OSC 1.0 (length-prefixed) encoding and decoding."""
-        encoder = OSCEncoder(OSCModes.TCP, OSCFraming.OSC10)
-        decoder = OSCDecoder(OSCModes.TCP, OSCFraming.OSC10)
+        encoder = OSCEncoder(OSCTransport.TCP, OSCFraming.OSC10)
+        decoder = OSCDecoder(OSCTransport.TCP, OSCFraming.OSC10)
 
         original = OSCMessage(address="/tcp/test", args=(OSCFloat(value=1.5), OSCString(value="data")))
 
@@ -344,8 +344,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_tcp_osc11_encode_decode(self):
         """Test TCP OSC 1.1 (SLIP) encoding and decoding."""
-        encoder = OSCEncoder(OSCModes.TCP, OSCFraming.OSC11)
-        decoder = OSCDecoder(OSCModes.TCP, OSCFraming.OSC11)
+        encoder = OSCEncoder(OSCTransport.TCP, OSCFraming.OSC11)
+        decoder = OSCDecoder(OSCTransport.TCP, OSCFraming.OSC11)
 
         original = OSCMessage(address="/slip/test", args=(OSCInt(value=999), OSCString(value="slip")))
 
@@ -367,8 +367,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_tcp_streaming_multiple_packets(self):
         """Test streaming multiple TCP packets."""
-        encoder = OSCEncoder(OSCModes.TCP, OSCFraming.OSC10)
-        decoder = OSCDecoder(OSCModes.TCP, OSCFraming.OSC10)
+        encoder = OSCEncoder(OSCTransport.TCP, OSCFraming.OSC10)
+        decoder = OSCDecoder(OSCTransport.TCP, OSCFraming.OSC10)
 
         msg1 = OSCMessage(address="/msg1", args=(OSCInt(value=1),))
         msg2 = OSCMessage(address="/msg2", args=(OSCInt(value=2),))
@@ -393,8 +393,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_tcp_streaming_partial_packets(self):
         """Test streaming with packets arriving in chunks."""
-        encoder = OSCEncoder(OSCModes.TCP, OSCFraming.OSC10)
-        decoder = OSCDecoder(OSCModes.TCP, OSCFraming.OSC10)
+        encoder = OSCEncoder(OSCTransport.TCP, OSCFraming.OSC10)
+        decoder = OSCDecoder(OSCTransport.TCP, OSCFraming.OSC10)
 
         msg = OSCMessage(address="/partial", args=(OSCString(value="test data"),))
         encoded = encoder.encode(msg)
@@ -414,8 +414,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_bundle_encode_decode(self):
         """Test encoding and decoding bundles."""
-        encoder = OSCEncoder(OSCModes.UDP, OSCFraming.OSC10)
-        decoder = OSCDecoder(OSCModes.UDP, OSCFraming.OSC10)
+        encoder = OSCEncoder(OSCTransport.UDP, OSCFraming.OSC10)
+        decoder = OSCDecoder(OSCTransport.UDP, OSCFraming.OSC10)
 
         msg1 = OSCMessage(address="/a", args=(OSCInt(value=1),))
         msg2 = OSCMessage(address="/b", args=(OSCInt(value=2),))
@@ -436,8 +436,8 @@ class TestOSCEncoderDecoder(unittest.TestCase):
 
     def test_binary_data_with_special_bytes(self):
         """Test encoding/decoding binary data containing SLIP special bytes."""
-        encoder = OSCEncoder(OSCModes.TCP, OSCFraming.OSC11)
-        decoder = OSCDecoder(OSCModes.TCP, OSCFraming.OSC11)
+        encoder = OSCEncoder(OSCTransport.TCP, OSCFraming.OSC11)
+        decoder = OSCDecoder(OSCTransport.TCP, OSCFraming.OSC11)
 
         # Create blob with SLIP special bytes (0xc0, 0xdb)
         special_data = b"\x00\xc0\xdb\xff\xc0\xdb\x00"
